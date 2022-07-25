@@ -18,7 +18,9 @@ onerror(app)
 app.use(koaBody({
   multipart: true,
   jsonLimit: '10mb',
-  formLimit: '10mb'
+  formidable: {
+    maxFileSize: 100 * 1024 * 1024
+  }
 }))
 // 格式化response body的中间件ß
 app.use(json())

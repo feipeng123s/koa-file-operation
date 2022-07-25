@@ -6,7 +6,7 @@ router.get('/file', ctx => {
     ctx.status = 200;
     ctx.body = `
     <h2>With <code>"koa"</code> npm package</h2>
-    <form action="/file" enctype="multipart/form-data" method="post">
+    <form action="/file/formidable" enctype="multipart/form-data" method="post">
     <div>Text field title: <input type="text" name="title" /></div>
     <div>File: <input type="file" name="uploadFile" multiple="multiple" /></div>
     <input type="submit" value="Upload" />

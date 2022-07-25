@@ -9,6 +9,7 @@ const formidable = require('formidable')
 const form = formidable({})
 
 class FileController {
+    // 上传一个包含多个utf-8格式文本文件的zip包
     async upload(ctx) {
         const file = ctx.request.files.uploadFile
         const reader = fs.createReadStream(file.filepath, { encoding: 'binary'})        
@@ -42,12 +43,6 @@ class FileController {
                 console.log(content)
             }
         }
-        // 也可以通过文件流的方式读取文件内容
-        // let str = ''
-        // for await(chunk of reader) {
-        //     str += chunk
-        // }
-        // console.log(str)
 
         // 删除zip文件和解压后的文件
         fs.unlink(filePath + '/' + fileName, (err) => {
@@ -65,19 +60,36 @@ class FileController {
         ctx.status = 200
     }
 
+    // 上传一个utf-8格式的文本文件
     async formidableUpload(ctx) {
+        // 使用formidable时，请在app.js中去掉koa-body的use
         await new Promise((resolve, reject) => {
-            form.parse(ctx.req, (err, fields, files) => {
+            form.parse(ctx.req, async (err, fields, files) => {
                 if(err) {
                     reject(err)
                     return
                 }
 
+                const file = files.uploadFile
+                const reader = fs.createReadStream(file.filepath, { encoding: 'utf-8'})
+
+                // 读取文件内容
+                let str = ''
+                for await(const chunk of reader) {
+                    str += chunk
+                }
+                console.log(str)
+
                 ctx.status = 200
-                ctx.state = {fields, files}
                 resolve()
             })
         })
+    }
+
+    async download(ctx) {
+        const filePath = ''
+        ctx.body = fs.createReadStream(filePath)
+        ctx.status = 200
     }
 }
 
