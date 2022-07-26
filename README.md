@@ -1,3 +1,5 @@
+本项目通过`koa-generator`生成
+
 ## 文件上传
 
 ### 使用koa-body实现文件上传
@@ -8,6 +10,7 @@
 - 读取完成后删除文件和目录
 
 koa-body也是通过引用 `formidable`库来实现文件上传的
+koa-body和koa-bodyparser的区别就是koa-body支持文件上传（multipart格式的数据）
 
 ### 使用formidable实现文件上传
 
